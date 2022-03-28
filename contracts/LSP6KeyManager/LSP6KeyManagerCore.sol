@@ -10,6 +10,7 @@ import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import "./ILSP6KeyManager.sol";
 
 // libraries
+import "@erc725/smart-contracts/contracts/utils/ErrorHandlerLib.sol";
 import "./LSP6Utils.sol";
 
 import "../Utils/ERC725Utils.sol";
@@ -138,14 +139,7 @@ abstract contract LSP6KeyManagerCore is ILSP6KeyManager, ERC165 {
         }(_data);
 
         if (!success) {
-            // solhint-disable reason-string
-            if (result_.length < 68) revert();
-
-            // solhint-disable no-inline-assembly
-            assembly {
-                result_ := add(result_, 0x04)
-            }
-            revert(abi.decode(result_, (string)));
+            ErrorHandlerLib.revertWithParsedError(result_);
         }
 
         emit Executed(msg.value, _data);
@@ -193,14 +187,7 @@ abstract contract LSP6KeyManagerCore is ILSP6KeyManager, ERC165 {
         }(_data);
 
         if (!success) {
-            // solhint-disable reason-string
-            if (result_.length < 68) revert();
-
-            // solhint-disable no-inline-assembly
-            assembly {
-                result_ := add(result_, 0x04)
-            }
-            revert(abi.decode(result_, (string)));
+            ErrorHandlerLib.revertWithParsedError(result_);
         }
 
         emit Executed(msg.value, _data);
